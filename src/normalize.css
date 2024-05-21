@@ -42,6 +42,14 @@ body {
   min-height: 100vh;
   line-height: 1.5;
   font-family: var(--font);
+  color: #27374d;
+
+  align-items: center;
+  background: #dde6ed;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 40px 32px 40px;
 }
 
 h1 {
@@ -255,10 +263,8 @@ template {
 }
 
 #root {
+  width: 100%;
   display: flex;
-  flex-wrap: wrap;
-  position: relative;
-  left: 50%;
-  top: 50%;
   flex-direction: column;
+  /* gap: 16px; */
 }
