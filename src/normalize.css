@@ -38,23 +38,24 @@ dd {
   margin: 0;
 }
 
+ul[role="list"],
+ol[role="list"],
+li {
+  list-style: none;
+}
+
 body {
-  min-height: 100vh;
   line-height: 1.5;
   font-family: var(--font);
   color: #27374d;
-
-  align-items: center;
-  background: #dde6ed;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 16px 40px 32px 40px;
+  /* background-color: #fafafa; */
+  background-color: #fff;
 }
 
 h1 {
   font-size: 2em;
-  margin: 0.67em 0;
+  /* margin: 0.67em 0; */
+  margin: 4px 0;
 }
 
 main {
@@ -80,6 +81,7 @@ pre {
 
 a {
   background-color: transparent;
+  text-decoration: none;
 }
 
 abbr[title] {
@@ -143,6 +145,10 @@ select {
   margin: 0;
 }
 
+input {
+  line-height: 1;
+}
+
 textarea:not([rows]) {
   min-height: 10em;
 }
@@ -154,12 +160,6 @@ textarea:not([rows]) {
 ul {
   margin: 0;
   padding: 0;
-}
-
-ul[role="list"],
-ol[role="list"],
-li {
-  list-style: none;
 }
 
 button,
@@ -196,6 +196,11 @@ button:-moz-focusring,
 
 fieldset {
   padding: 0.35em 0.75em 0.625em;
+  /* appearance: none; */
+  /* -webkit-appearance: none; */
+  /* -moz-appearance: none; */
+  border: none !important;
+  outline: none !important;
 }
 
 legend {
@@ -262,9 +267,18 @@ template {
   display: none;
 }
 
-#root {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  /* gap: 16px; */
-}
+/* input[name="birthDate"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  outline: none;
+} */
+
+/* .MuiOutlinedInput-notchedOutline {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  border: none !important;
+  outline: none !important;
+} */

@@ -1,12 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import NewEmployee from "./pages/NewEmployee.jsx";
 import "./normalize.css";
-import Nav from "./Components/Nav.jsx";
+import App from "./app/App.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Nav />
-    <NewEmployee />
+    <App />
   </React.StrictMode>
 );

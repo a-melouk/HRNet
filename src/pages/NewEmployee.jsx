@@ -1,13 +1,14 @@
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
-import dayjs from "dayjs";
 import styled from "styled-components";
 import BasicInput, { StyledFormInputLabel } from "../Components/BasicInput";
 import { StyledLabel } from "../Components/BasicInput";
-import Select from "react-select";
 import { states } from "../states";
+import SelectDate from "../Components/SelectDate";
+import SelectOption from "../Components/SelectOption";
+import dayjs from "dayjs";
+import EmployeeModal from "../Components/EmployeeModal";
 
 const stateOptions = states.map((state) => ({
   value: state.abbreviation,
@@ -23,12 +24,14 @@ const departmentOptions = [
 ];
 
 const StyledForm = styled.form`
-  background-color: #fff;
-  border-radius: 4px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16px 32px;
+  /* padding: 16px; */
+  margin-bottom: 96px;
+  /* background-color: #fdfdfd; */
+  background-color: #fff;
+  gap: 16px;
 
   h1 {
     text-align: center;
@@ -36,37 +39,68 @@ const StyledForm = styled.form`
     font-weight: 700;
   }
 
+  hr {
+    border: 1px solid #d4d4d4;
+    width: 20%;
+    align-self: center;
+    margin: 16px 0;
+  }
+
   section {
     display: grid;
-    grid-template-columns: repeat(2, 40%);
-    justify-content: space-around;
+    grid-template-columns: repeat(2, minmax(45%, 700px));
+    column-gap: 40px;
+    row-gap: 16px;
+    justify-content: space-between;
   }
 
   button.new-employee {
-    background-color: #2ca77c;
     align-items: center;
+    align-self: center;
+    background-color: #2ca77c;
     border-radius: 16px;
+    border: none;
     color: #fff;
     display: flex;
     font-size: 24px;
     font-weight: 600;
     justify-content: center;
-    padding: 16px 32px;
-    width: max-content;
-    align-self: center;
-    border: none;
+    padding: 16px 24px;
+    margin-top: 8px;
+  }
+
+  button.new-employee:hover {
+    cursor: pointer;
   }
 `;
 
 const NewEmployee = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [birthDate, setBirthDate] = useState(null);
+  const [email, setEmail] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState(null);
+  const [zip, setZip] = useState("");
   const [startDate, setStartDate] = useState(null);
-  const today = new Date();
+  const [department, setDepartment] = useState(null);
+
+  function handleStateChange(stateValue) {
+    setState(stateValue);
+  }
+
+  function handleDepartmentChange(departmentValue) {
+    setDepartment(departmentValue);
+  }
+
+  const today = dayjs();
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
+      {/* <StyledForm onSubmit={handleSubmit}> */}
       <StyledForm>
         <h1>Add a new employee</h1>
-
         <section>
           <BasicInput
             htmlFor="firstName"
@@ -74,6 +108,8 @@ const NewEmployee = () => {
             inputType="text"
             inputId="firstName"
             inputName="firstName"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
           />
           <BasicInput
             htmlFor="lastName"
@@ -81,19 +117,18 @@ const NewEmployee = () => {
             inputType="text"
             inputId="lastName"
             inputName="lastName"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
           <StyledFormInputLabel>
             <StyledLabel htmlFor="birthDate">Birth Date</StyledLabel>
-            <DatePicker
-              label="DD/MM/YYYY"
-              value={birthDate}
-              onChange={(newValue) => setBirthDate(newValue)}
-              minDate={dayjs(today).subtract(100, "year")}
-              maxDate={dayjs(today).subtract(18, "year")}
+            <SelectDate
+              date={birthDate}
+              setDate={setBirthDate}
               name="birthDate"
-              sx={{ marginBottom: 1.5, borderRadius: 8 }}
-              format="DD/MM/YYYY"
+              maxDate={today.subtract(18, "year")}
             />
+            <span className="error-message birth-date"></span>
           </StyledFormInputLabel>
           <BasicInput
             htmlFor="email"
@@ -101,95 +136,73 @@ const NewEmployee = () => {
             inputType="email"
             inputId="email"
             inputName="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-        </section>
-
-        <hr />
-
-        <section>
           <BasicInput
             htmlFor="street"
             label="Street"
             inputType="text"
             inputId="street"
             inputName="street"
+            value={street}
+            onChange={(e) => setStreet(e.target.value)}
           />
           <BasicInput
-            htmlFor={"city"}
-            label={"City"}
-            inputType={"text"}
-            inputId={"city"}
-            inputName={"city"}
+            htmlFor="city"
+            label="City"
+            inputType="text"
+            inputId="city"
+            inputName="city"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
           />
 
           <StyledFormInputLabel>
             <StyledLabel htmlFor="state">State</StyledLabel>
-            <Select
+            <SelectOption
               options={stateOptions}
               name="state"
-              id="state"
               placeholder="State"
-              styles={{
-                control: (baseStyles, state) => ({
-                  ...baseStyles,
-                  border: "1px solid #c6c6c6",
-                  height: "56px",
-                  borderRadius: "8px",
-                  zIndex: state.isFocused ? 1 : 0,
-                }),
-              }}
+              value={state}
+              onChange={handleStateChange}
             />
           </StyledFormInputLabel>
 
           <BasicInput
-            htmlFor={"zip"}
-            label={"Zip"}
-            inputType={"number"}
-            inputId={"zip"}
-            inputName={"zip"}
+            htmlFor="zip"
+            label="Zip"
+            inputType="number"
+            inputId="zip"
+            inputName="zip"
+            value={zip}
+            onChange={(e) => setZip(e.target.value)}
           />
-        </section>
-
-        <hr />
-
-        <section>
           <StyledFormInputLabel>
             <StyledLabel htmlFor="startDate">Start Date</StyledLabel>
-            <DatePicker
-              label="DD/MM/YYYY"
-              value={startDate}
-              onChange={(newValue) => setStartDate(newValue)}
-              minDate={dayjs(today).subtract(10, "year")}
-              maxDate={dayjs(today).add(1, "year")}
-              sx={{ marginBottom: 1.5 }}
-              format="DD/MM/YYYY"
+            <SelectDate
+              date={startDate}
+              setDate={setStartDate}
+              name="startDate"
             />
           </StyledFormInputLabel>
 
           <StyledFormInputLabel>
             <StyledLabel htmlFor="department">Department</StyledLabel>
-            <Select
+            <SelectOption
               options={departmentOptions}
               placeholder="Department"
-              styles={{
-                control: (baseStyles, state) => ({
-                  ...baseStyles,
-                  border: "1px solid #c6c6c6",
-                  height: "56px",
-                  borderRadius: "8px",
-                  zIndex: state.isFocused ? 1 : 0,
-                }),
-              }}
+              name="department"
+              value={department}
+              onChange={handleDepartmentChange}
             />
           </StyledFormInputLabel>
         </section>
-
-        <hr />
-
         <button className="new-employee" type="submit">
           Add employee
         </button>
       </StyledForm>
+      <EmployeeModal />
     </LocalizationProvider>
   );
 };

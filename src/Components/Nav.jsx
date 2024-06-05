@@ -1,41 +1,42 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledNav = styled.nav`
   display: flex;
   justify-content: space-between;
-  padding-inline: 16px;
-  padding-block: 4px;
+  /* padding-inline: 16px; */
   background-color: #fff;
-  border-radius: 4px;
+  width: 100%;
 
   span {
     display: flex;
     color: #27374d;
     font-size: 56px;
     font-weight: 700;
-    height: 80px;
-    width: 175px;
+    /* height: 80px; */
   }
 
   ul {
     display: flex;
     align-items: center;
     gap: 24px;
+    justify-content: flex-end;
 
     a {
       font-weight: bold;
       color: #27374d;
-      margin-right: 0.5rem;
       display: flex;
       align-items: center;
       gap: 4px;
+      font-size: 20px;
 
-      &.router-link-exact-active {
-        color: #42b983;
+      &.active {
+        color: #2ca77c;
+        text-decoration: underline;
       }
 
       &:hover {
-        text-decoration: underline;
+        color: #50f4ba;
       }
     }
   }
@@ -47,10 +48,20 @@ function Nav() {
       <span>HRNet</span>
       <ul>
         <li>
-          <a to="/">Add an employee</a>
+          <NavLink
+            to="/new-employee"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Add an employee
+          </NavLink>
         </li>
         <li>
-          <a to="/">View employees</a>
+          <NavLink
+            to="/employees"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            View employees
+          </NavLink>
         </li>
       </ul>
     </StyledNav>
