@@ -18,16 +18,16 @@ const datepickerStyle = {
   },
 };
 
-function SelectDate({ name, onChange }) {
+function SelectDate({ name, value, onChange }) {
   return (
     <>
       <DatePicker
         name={name}
+        value={value}
         onChange={onChange}
         sx={datepickerStyle}
         format="DD/MM/YYYY"
       />
-      <span className="error-message birth-date"></span>
     </>
   );
 }

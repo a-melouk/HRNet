@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { StyledFormGroup } from "./FormGroup";
+import { formatLabel } from "../utils/utils";
 
 const StyledInput = styled.input`
   align-items: center;
@@ -26,14 +27,14 @@ const StyledInput = styled.input`
   }
 `;
 
-const BasicInput = ({ label, inputType, inputId, value, onChange }) => {
+const BasicInput = ({ fieldName, inputType, inputId, value, onChange }) => {
   return (
     <StyledFormGroup>
-      <label htmlFor={inputId}>{label}</label>
+      <label htmlFor={inputId}>{formatLabel(fieldName)}</label>
       <StyledInput
         type={inputType}
         id={inputId}
-        name={label}
+        name={fieldName}
         value={value}
         onChange={onChange}
         // required

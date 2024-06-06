@@ -10,6 +10,7 @@ import BasicInput from "../Components/BasicInput";
 import EmployeeModal from "../Components/EmployeeModal";
 import SelectDate from "../Components/SelectDate";
 import SelectOption from "../Components/SelectOption";
+import { validateForm } from "../utils/utils";
 
 const stateOptions = states.map((state) => ({
   value: state.abbreviation,
@@ -80,28 +81,48 @@ const NewEmployee = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    handleOpen();
+    if (validateForm(formData)) {
+      handleOpen();
+      resetFormInputs();
+    }
+  }
+
+  function resetFormInputs() {
+    setFormData({
+      firstName: "",
+      lastName: "",
+      birthDate: null,
+      emailAddress: "",
+      street: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      startDate: null,
+      department: "",
+    });
   }
 
   function handleStateChange(state) {
-    setFormData({ ...formData, state: state.value });
+    setFormData({ ...formData, state: state });
   }
 
   function handleDepartmentChange(department) {
-    setFormData({ ...formData, department: department.value });
+    setFormData({ ...formData, department: department });
   }
 
   function handleBirthdateChange(date) {
     setFormData({
       ...formData,
-      birthDate: dayjs(date).format("DD/MM/YYYY"),
+      // birthDate: dayjs(date).format("DD/MM/YYYY"),
+      birthDate: date,
     });
   }
 
   function handleStartDateChange(date) {
     setFormData({
       ...formData,
-      startDate: dayjs(date).format("DD/MM/YYYY"),
+      // startDate: dayjs(date).format("DD/MM/YYYY"),
+      startDate: date,
     });
   }
 
@@ -115,42 +136,52 @@ const NewEmployee = () => {
         <h1>Add a new employee</h1>
         <section>
           <BasicInput
-            label="First Name"
+            fieldName="firstName"
             inputType="text"
             inputId="firstName"
+            value={formData.firstName}
             onChange={handleInputChange}
           />
 
           <BasicInput
-            label="Last Name"
+            fieldName="lastName"
             inputType="text"
             inputId="lastName"
+            value={formData.lastName}
             onChange={handleInputChange}
           />
 
           <StyledFormGroup>
             <label htmlFor="birthDate">Birth Date</label>
-            <SelectDate name="birthDate" onChange={handleBirthdateChange} />
+            <SelectDate
+              name="birthDate"
+              value={formData.birthDate}
+              onChange={handleBirthdateChange}
+            />
+            <span className="error-message birth-date"></span>
           </StyledFormGroup>
 
           <BasicInput
-            label="Email address"
-            inputType="email"
+            fieldName="emailAddress"
+            inputType="text"
             inputId="email"
+            value={formData.emailAddress}
             onChange={handleInputChange}
           />
 
           <BasicInput
-            label="Street"
+            fieldName="street"
             inputType="text"
             inputId="street"
+            value={formData.street}
             onChange={handleInputChange}
           />
 
           <BasicInput
-            label="City"
+            fieldName="city"
             inputType="text"
             inputId="city"
+            value={formData.city}
             onChange={handleInputChange}
           />
 
@@ -160,19 +191,27 @@ const NewEmployee = () => {
               options={stateOptions}
               name="state"
               placeholder="State"
+              value={formData.state}
               onChange={handleStateChange}
             />
+            <span className="error-message state"></span>
           </StyledFormGroup>
 
           <BasicInput
-            label="ZIP Code"
+            fieldName="zipCode"
             inputType="number"
             inputId="zip"
+            value={formData.zipCode}
             onChange={handleInputChange}
           />
           <StyledFormGroup>
             <label htmlFor="startDate">Start Date</label>
-            <SelectDate name="startDate" onChange={handleStartDateChange} />
+            <SelectDate
+              name="startDate"
+              value={formData.startDate}
+              onChange={handleStartDateChange}
+            />
+            <span className="error-message start-date"></span>
           </StyledFormGroup>
 
           <StyledFormGroup>
@@ -181,13 +220,17 @@ const NewEmployee = () => {
               options={departmentOptions}
               placeholder="Department"
               name="department"
+              value={formData.department}
               onChange={handleDepartmentChange}
             />
+            <span className="error-message department"></span>
           </StyledFormGroup>
         </section>
+
         <button className="new-employee" type="submit">
           Add employee
         </button>
+
         <EmployeeModal open={open} handleClose={handleClose} />
       </StyledForm>
     </LocalizationProvider>

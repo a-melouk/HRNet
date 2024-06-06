@@ -16,15 +16,18 @@ const selectStyle = {
     },
   }),
 };
-function SelectOption({ options, name, placeholder, onChange }) {
+function SelectOption({ options, name, placeholder, value, onChange }) {
   return (
-    <Select
-      options={options}
-      name={name}
-      placeholder={placeholder}
-      onChange={onChange}
-      styles={selectStyle}
-    />
+    <>
+      <Select
+        options={options}
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        styles={selectStyle}
+      />
+    </>
   );
 }
 

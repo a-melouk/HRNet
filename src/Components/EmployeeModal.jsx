@@ -21,7 +21,6 @@ const style = {
 function EmployeeModal({ open, handleClose }) {
   return (
     <>
-      {/* <button onClick={handleOpen}>Open modal</button> */}
       <Modal
         open={open}
         onClose={handleClose}

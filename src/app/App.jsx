@@ -8,7 +8,18 @@ import { HRContext } from "./HRContext";
 import { useState } from "react";
 
 function App() {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    birthDate: null,
+    emailAddress: "",
+    street: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    department: "",
+    startDate: null,
+  });
   return (
     <Router>
       <Nav />
