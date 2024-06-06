@@ -1,25 +1,8 @@
 import styled from "styled-components";
-
-export const StyledFormInputLabel = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-
-  &:focus-within {
-    z-index: 5;
-  }
-
-  span.error-message {
-    color: red;
-    font-size: 12px;
-    display: block;
-    margin-top: 2px;
-  }
-`;
+import { StyledFormGroup } from "./FormGroup";
 
 const StyledInput = styled.input`
   align-items: center;
-  background-color: #fff;
   border-radius: 4px;
   border: 2px solid #878787;
   box-sizing: border-box;
@@ -43,34 +26,20 @@ const StyledInput = styled.input`
   }
 `;
 
-export const StyledLabel = styled.label`
-  color: #27374d;
-  font-size: 20px;
-  font-weight: 600;
-`;
-
-const BasicInput = ({
-  htmlFor,
-  label,
-  inputType,
-  inputId,
-  inputName,
-  value,
-  onChange,
-}) => {
+const BasicInput = ({ label, inputType, inputId, value, onChange }) => {
   return (
-    <StyledFormInputLabel>
-      <StyledLabel htmlFor={htmlFor}>{label}</StyledLabel>
+    <StyledFormGroup>
+      <label htmlFor={inputId}>{label}</label>
       <StyledInput
         type={inputType}
         id={inputId}
-        name={inputName}
+        name={label}
         value={value}
         onChange={onChange}
         // required
       />
       <span className="error-message"></span>
-    </StyledFormInputLabel>
+    </StyledFormGroup>
   );
 };
 

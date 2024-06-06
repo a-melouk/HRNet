@@ -4,8 +4,6 @@ import styled from "styled-components";
 const StyledNav = styled.nav`
   display: flex;
   justify-content: space-between;
-  /* padding-inline: 16px; */
-  background-color: #fff;
   width: 100%;
 
   span {
@@ -13,7 +11,6 @@ const StyledNav = styled.nav`
     color: #27374d;
     font-size: 56px;
     font-weight: 700;
-    /* height: 80px; */
   }
 
   ul {

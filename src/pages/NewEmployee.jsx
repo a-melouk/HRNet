@@ -1,14 +1,15 @@
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { useState } from "react";
 import styled from "styled-components";
-import BasicInput, { StyledFormInputLabel } from "../Components/BasicInput";
-import { StyledLabel } from "../Components/BasicInput";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { useContext } from "react";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import { HRContext } from "../app/HRContext";
 import { states } from "../states";
+import { StyledFormInputLabel } from "../Components/LabelInput";
+import BasicInput from "../Components/BasicInput";
+import EmployeeModal from "../Components/EmployeeModal";
 import SelectDate from "../Components/SelectDate";
 import SelectOption from "../Components/SelectOption";
-import dayjs from "dayjs";
-import EmployeeModal from "../Components/EmployeeModal";
 
 const stateOptions = states.map((state) => ({
   value: state.abbreviation,
@@ -27,10 +28,7 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* padding: 16px; */
   margin-bottom: 96px;
-  /* background-color: #fdfdfd; */
-  background-color: #fff;
   gap: 16px;
 
   h1 {
@@ -75,125 +73,110 @@ const StyledForm = styled.form`
 `;
 
 const NewEmployee = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [birthDate, setBirthDate] = useState(null);
-  const [email, setEmail] = useState("");
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState(null);
-  const [zip, setZip] = useState("");
-  const [startDate, setStartDate] = useState(null);
-  const [department, setDepartment] = useState(null);
+  const { formData, setFormData } = useContext(HRContext);
 
-  function handleStateChange(stateValue) {
-    setState(stateValue);
+  function handleSubmit(event) {
+    event.preventDefault();
   }
 
-  function handleDepartmentChange(departmentValue) {
-    setDepartment(departmentValue);
+  function handleStateChange(state) {
+    setFormData({ ...formData, state: state.value });
   }
 
-  const today = dayjs();
+  function handleDepartmentChange(department) {
+    setFormData({ ...formData, department: department.value });
+  }
+
+  function handleBirthdateChange(date) {
+    setFormData({
+      ...formData,
+      birthDate: dayjs(date).format("DD/MM/YYYY"),
+    });
+  }
+
+  function handleStartDateChange(date) {
+    setFormData({
+      ...formData,
+      startDate: dayjs(date).format("DD/MM/YYYY"),
+    });
+  }
+
+  function handleInputChange(e) {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      {/* <StyledForm onSubmit={handleSubmit}> */}
-      <StyledForm>
+      <StyledForm onSubmit={handleSubmit}>
         <h1>Add a new employee</h1>
         <section>
           <BasicInput
-            htmlFor="firstName"
             label="First Name"
             inputType="text"
             inputId="firstName"
-            inputName="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={handleInputChange}
           />
+
           <BasicInput
-            htmlFor="lastName"
             label="Last Name"
             inputType="text"
             inputId="lastName"
-            inputName="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-          <StyledFormInputLabel>
-            <StyledLabel htmlFor="birthDate">Birth Date</StyledLabel>
-            <SelectDate
-              date={birthDate}
-              setDate={setBirthDate}
-              name="birthDate"
-              maxDate={today.subtract(18, "year")}
-            />
-            <span className="error-message birth-date"></span>
-          </StyledFormInputLabel>
-          <BasicInput
-            htmlFor="email"
-            label="Email address"
-            inputType="email"
-            inputId="email"
-            inputName="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <BasicInput
-            htmlFor="street"
-            label="Street"
-            inputType="text"
-            inputId="street"
-            inputName="street"
-            value={street}
-            onChange={(e) => setStreet(e.target.value)}
-          />
-          <BasicInput
-            htmlFor="city"
-            label="City"
-            inputType="text"
-            inputId="city"
-            inputName="city"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
+            onChange={handleInputChange}
           />
 
           <StyledFormInputLabel>
-            <StyledLabel htmlFor="state">State</StyledLabel>
+            <label htmlFor="birthDate">Birth Date</label>
+            <SelectDate name="birthDate" onChange={handleBirthdateChange} />
+          </StyledFormInputLabel>
+
+          <BasicInput
+            label="Email address"
+            inputType="email"
+            inputId="email"
+            onChange={handleInputChange}
+          />
+
+          <BasicInput
+            label="Street"
+            inputType="text"
+            inputId="street"
+            onChange={handleInputChange}
+          />
+
+          <BasicInput
+            label="City"
+            inputType="text"
+            inputId="city"
+            onChange={handleInputChange}
+          />
+
+          <StyledFormInputLabel>
+            <label htmlFor="state">State</label>
             <SelectOption
               options={stateOptions}
               name="state"
               placeholder="State"
-              value={state}
               onChange={handleStateChange}
             />
           </StyledFormInputLabel>
 
           <BasicInput
-            htmlFor="zip"
-            label="Zip"
+            label="ZIP Code"
             inputType="number"
             inputId="zip"
-            inputName="zip"
-            value={zip}
-            onChange={(e) => setZip(e.target.value)}
+            onChange={handleInputChange}
           />
           <StyledFormInputLabel>
-            <StyledLabel htmlFor="startDate">Start Date</StyledLabel>
-            <SelectDate
-              date={startDate}
-              setDate={setStartDate}
-              name="startDate"
-            />
+            <label htmlFor="startDate">Start Date</label>
+            <SelectDate name="startDate" onChange={handleStartDateChange} />
           </StyledFormInputLabel>
 
           <StyledFormInputLabel>
-            <StyledLabel htmlFor="department">Department</StyledLabel>
+            <label htmlFor="department">Department</label>
             <SelectOption
               options={departmentOptions}
               placeholder="Department"
               name="department"
-              value={department}
               onChange={handleDepartmentChange}
             />
           </StyledFormInputLabel>
