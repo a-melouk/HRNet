@@ -13,18 +13,15 @@ const style = {
   boxShadow: 24,
   p: 4,
   display: "flex",
+  flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
 };
 
-function EmployeeModal() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+function EmployeeModal({ open, handleClose }) {
   return (
     <>
-      <button onClick={handleOpen}>Open modal</button>
+      {/* <button onClick={handleOpen}>Open modal</button> */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -33,6 +30,7 @@ function EmployeeModal() {
       >
         <Box sx={style}>
           <h2>Employee added with success</h2>
+          <button onClick={handleClose}>Close</button>
         </Box>
       </Modal>
     </>

@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { HRContext } from "../app/HRContext";
 import { states } from "../states";
-import { StyledFormInputLabel } from "../Components/LabelInput";
+import { StyledFormGroup } from "../Components/FormGroup";
 import BasicInput from "../Components/BasicInput";
 import EmployeeModal from "../Components/EmployeeModal";
 import SelectDate from "../Components/SelectDate";
@@ -74,9 +74,13 @@ const StyledForm = styled.form`
 
 const NewEmployee = () => {
   const { formData, setFormData } = useContext(HRContext);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   function handleSubmit(event) {
     event.preventDefault();
+    handleOpen();
   }
 
   function handleStateChange(state) {
@@ -124,10 +128,10 @@ const NewEmployee = () => {
             onChange={handleInputChange}
           />
 
-          <StyledFormInputLabel>
+          <StyledFormGroup>
             <label htmlFor="birthDate">Birth Date</label>
             <SelectDate name="birthDate" onChange={handleBirthdateChange} />
-          </StyledFormInputLabel>
+          </StyledFormGroup>
 
           <BasicInput
             label="Email address"
@@ -150,7 +154,7 @@ const NewEmployee = () => {
             onChange={handleInputChange}
           />
 
-          <StyledFormInputLabel>
+          <StyledFormGroup>
             <label htmlFor="state">State</label>
             <SelectOption
               options={stateOptions}
@@ -158,7 +162,7 @@ const NewEmployee = () => {
               placeholder="State"
               onChange={handleStateChange}
             />
-          </StyledFormInputLabel>
+          </StyledFormGroup>
 
           <BasicInput
             label="ZIP Code"
@@ -166,12 +170,12 @@ const NewEmployee = () => {
             inputId="zip"
             onChange={handleInputChange}
           />
-          <StyledFormInputLabel>
+          <StyledFormGroup>
             <label htmlFor="startDate">Start Date</label>
             <SelectDate name="startDate" onChange={handleStartDateChange} />
-          </StyledFormInputLabel>
+          </StyledFormGroup>
 
-          <StyledFormInputLabel>
+          <StyledFormGroup>
             <label htmlFor="department">Department</label>
             <SelectOption
               options={departmentOptions}
@@ -179,13 +183,13 @@ const NewEmployee = () => {
               name="department"
               onChange={handleDepartmentChange}
             />
-          </StyledFormInputLabel>
+          </StyledFormGroup>
         </section>
         <button className="new-employee" type="submit">
           Add employee
         </button>
+        <EmployeeModal open={open} handleClose={handleClose} />
       </StyledForm>
-      <EmployeeModal />
     </LocalizationProvider>
   );
 };
