@@ -1,34 +1,13 @@
 import dayjs from "dayjs";
 
-function handleSubmit(event) {
-  event.preventDefault();
-  // const data = new FormData(event.target);
-  // const firstName = data.get("firstName");
-  // const lastName = data.get("lastName");
-  // const birthDate = data.get("birthDate");
-  // const email = data.get("email");
-  // const street = data.get("street");
-  // const city = data.get("city");
-  // const state = data.get("state");
-  // const zip = data.get("zip");
-  // const startDate = data.get("startDate");
-  // const department = data.get("department");
-
-  // validateBasicInput(firstName, "firstName", 2);
-  // validateBasicInput(lastName, "lastName", 2);
-  // validateBasicInput(street, "street", 2);
-  // validateBasicInput(city, "city", 2);
-  // validateZipCode(zip, 501, 99950);
-  // validateBirthDate(birthDate);
-}
-
-function validateBasicInput(fieldValue, fieldName, minLength) {
-  if (fieldValue.length < minLength) {
+//Used to validate firstname, lastname, city
+function validateTextInputs(fieldValue, fieldName) {
+  //make sure that there's no numeric characters in field
+  const regex = /[0-9]/;
+  if (regex.test(fieldValue)) {
     document.querySelector(
       `#${fieldName} + .error-message`
-    ).textContent = `${formatLabel(
-      fieldName
-    )} must be at least ${minLength} characters long.`;
+    ).textContent = `${formatLabel(fieldName)} cannot contain numbers.`;
     return false;
   } else {
     document.querySelector(`#${fieldName} + .error-message`).textContent = "";
@@ -55,6 +34,13 @@ function validateBirthDate(birthDateValue) {
     ).textContent = `Birth date is required.`;
     return false;
   }
+
+  if (birthDateValue.$d == "Invalid Date") {
+    document.querySelector(
+      `.error-message.birth-date`
+    ).textContent = `Please enter a valid birth date.`;
+    return false;
+  }
   const today = dayjs();
   const eighteenYearsAgo = today.subtract(18, "year");
   const birthDate = dayjs(birthDateValue, "DD/MM/YYYY");
@@ -75,10 +61,16 @@ function validateStartDate(startDateValue) {
       `.error-message.start-date`
     ).textContent = `Start date is required.`;
     return false;
-  } else {
-    document.querySelector(`.error-message.start-date`).textContent = "";
-    return true;
   }
+  if (startDateValue.$d == "Invalid Date") {
+    document.querySelector(
+      `.error-message.start-date`
+    ).textContent = `Please enter a valid start date.`;
+    return false;
+  }
+
+  document.querySelector(`.error-message.start-date`).textContent = "";
+  return true;
 }
 
 function validateSelectOption(fieldName, option) {
@@ -119,19 +111,19 @@ export const validateForm = (formData) => {
     lastName,
     birthDate,
     emailAddress,
-    street,
+    // street,
     city,
     state,
     zipCode,
     startDate,
     department,
   } = formData;
-  const validFirstName = validateBasicInput(firstName, "firstName", 2);
-  const validLastName = validateBasicInput(lastName, "lastName", 2);
+  const validFirstName = validateTextInputs(firstName, "firstName");
+  const validLastName = validateTextInputs(lastName, "lastName");
   const validBirthDate = validateBirthDate(birthDate);
   const validEmail = validateEmail(emailAddress);
-  const validStreet = validateBasicInput(street, "street", 2);
-  const validCity = validateBasicInput(city, "city", 2);
+  // const validStreet = validateTextInputs(street, "street");
+  const validCity = validateTextInputs(city, "city");
   const validState = validateSelectOption("state", state);
   const validZipCode = validateZipCode(zipCode, 501, 99950);
   const validStartDate = validateStartDate(startDate);
@@ -141,7 +133,7 @@ export const validateForm = (formData) => {
     validLastName &&
     validBirthDate &&
     validEmail &&
-    validStreet &&
+    // validStreet &&
     validCity &&
     validState &&
     validZipCode &&
