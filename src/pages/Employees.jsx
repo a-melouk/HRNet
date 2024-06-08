@@ -7,7 +7,6 @@ const StyledEmployees = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  /* padding: 16px; */
 
   h1 {
     text-align: center;

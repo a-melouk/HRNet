@@ -111,7 +111,6 @@ export const validateForm = (formData) => {
     lastName,
     birthDate,
     emailAddress,
-    // street,
     city,
     state,
     zipCode,
@@ -122,7 +121,6 @@ export const validateForm = (formData) => {
   const validLastName = validateTextInputs(lastName, "lastName");
   const validBirthDate = validateBirthDate(birthDate);
   const validEmail = validateEmail(emailAddress);
-  // const validStreet = validateTextInputs(street, "street");
   const validCity = validateTextInputs(city, "city");
   const validState = validateSelectOption("state", state);
   const validZipCode = validateZipCode(zipCode, 501, 99950);
@@ -133,11 +131,33 @@ export const validateForm = (formData) => {
     validLastName &&
     validBirthDate &&
     validEmail &&
-    // validStreet &&
     validCity &&
     validState &&
     validZipCode &&
     validStartDate &&
     validDepartment
   );
+};
+
+export function stringIsDate(string) {
+  const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+  return dateRegex.test(string);
+}
+
+export const sortDates = (order, a, b) => {
+  const dateA = new Date(a);
+  const dateB = new Date(b);
+  if (order === "ascending") {
+    return dateA - dateB;
+  } else {
+    return dateB - dateA;
+  }
+};
+
+export const sortString = (order, a, b) => {
+  if (order === "ascending") {
+    return a > b ? 1 : -1;
+  } else {
+    return a < b ? 1 : -1;
+  }
 };
