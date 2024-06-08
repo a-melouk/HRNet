@@ -51,12 +51,7 @@ const sortField = (records, field, order) => {
   }
 };
 
-function Table() {
-  const [sorting, setSorting] = useState({
-    sortOrder: "no-sort",
-    sortField: "",
-  });
-
+function Table({ sorting, setSorting }) {
   function handleArrowClick(event) {
     //Get the header that was clicked
     const header = event.target.innerText;
@@ -94,8 +89,16 @@ function Table() {
         <tr>
           {headers.map((header) => (
             <th key={header} onClick={handleArrowClick}>
-              <StyledArrows>
+              {/* <StyledArrows>
                 {header} <img src={noSort} />
+              </StyledArrows> */}
+              <StyledArrows>
+                {header}
+                {sorting.sortField === header &&
+                  sorting.sortOrder === "ascending" && <img src={arrowUp} />}
+                {sorting.sortField === header &&
+                  sorting.sortOrder === "descending" && <img src={arrowDown} />}
+                {sorting.sortField !== header && <img src={noSort} />}
               </StyledArrows>
             </th>
           ))}
