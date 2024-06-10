@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 import Table from "../Components/Table";
 
@@ -15,11 +16,11 @@ const StyledEmployees = styled.div`
   }
 `;
 
-const Employees = () => {
+const Employees = ({ sorting, setSorting }) => {
   return (
     <StyledEmployees>
       <h1>Current employees</h1>
-      <Table />
+      <Table sorting={sorting} setSorting={setSorting} />
     </StyledEmployees>
   );
 };
