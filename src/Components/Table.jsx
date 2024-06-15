@@ -29,7 +29,7 @@ const StyledTable = styled.table`
     background-color: #f9f9f9;
   }
 
-  tr:hover {
+  tbody tr:hover {
     background-color: #f1f1f1;
   }
 
