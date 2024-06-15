@@ -79,17 +79,19 @@ const emphasizeSelectedColumn = (headers, header) => {
 };
 
 function Table({ sorting, setSorting }) {
-  function handleArrowClick(event) {
-    //Get the header that was clicked
-    const header = event.target.innerText;
+  function handleHeaderClick(event) {
+    const thElement = event.currentTarget;
+    const header = thElement.innerText;
+
+    const imgElement = thElement.querySelector("img");
+
     // Reset all arrows to no-sort
     const allArrows = document.querySelectorAll("img");
     allArrows.forEach((arrow) => (arrow.src = noSort));
-
     //If no sort is applied, sort clicked header in ascending order
     if (sorting.sortOrder === "no-sort") {
       setSorting({ sortOrder: "ascending", sortField: header });
-      event.target.querySelector("img").src = arrowUp;
+      imgElement.src = arrowUp;
       records.sort(sortField(records, header, "ascending"));
       emphasizeSelectedColumn(Object.keys(records[0]), header);
     }
@@ -99,14 +101,14 @@ function Table({ sorting, setSorting }) {
       sorting.sortField === header
     ) {
       setSorting({ sortOrder: "descending", sortField: header });
-      event.target.querySelector("img").src = arrowDown;
+      imgElement.src = arrowDown;
       records.sort(sortField(records, header, "descending"));
       emphasizeSelectedColumn(Object.keys(records[0]), header);
     }
     //If header is sorted descending, or if a different header is clicked, sort in ascending order
     else {
       setSorting({ sortOrder: "ascending", sortField: header });
-      event.target.querySelector("img").src = arrowUp;
+      imgElement.src = arrowUp;
       records.sort(sortField(records, header, "ascending"));
       emphasizeSelectedColumn(Object.keys(records[0]), header);
     }
@@ -124,7 +126,7 @@ function Table({ sorting, setSorting }) {
       <thead>
         <tr>
           {headers.map((header) => (
-            <th key={header} onClick={handleArrowClick}>
+            <th key={header} onClick={(event) => handleHeaderClick(event)}>
               <StyledArrows>
                 {header}
                 {sorting.sortField === header ? (

@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Nav from "../Components/Nav";
 import NewEmployee from "../pages/NewEmployee";
 import Employees from "../pages/Employees";
@@ -29,6 +34,7 @@ function App() {
       <Nav />
       <HRContext.Provider value={{ formData, setFormData }}>
         <Routes>
+          <Route path="/" element={<Navigate replace to="/new-employee" />} />
           <Route path="/new-employee" element={<NewEmployee />} />
           <Route
             path="/employees"
