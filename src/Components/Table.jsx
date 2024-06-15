@@ -26,12 +26,15 @@ const StyledTable = styled.table`
   }
 
   tr:nth-child(even) {
-    background-color: #f6f6f6;
+    background-color: #f9f9f9;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1;
   }
 
   .selected {
     background-color: #eee;
-    /* border: 1px solid black; */
   }
 `;
 
