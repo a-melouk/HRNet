@@ -25,10 +25,7 @@ function App() {
     department: "",
     startDate: null,
   });
-  const [sorting, setSorting] = useState({
-    sortOrder: "no-sort",
-    sortField: "",
-  });
+
   return (
     <Router>
       <Nav />
@@ -36,10 +33,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate replace to="/new-employee" />} />
           <Route path="/new-employee" element={<NewEmployee />} />
-          <Route
-            path="/employees"
-            element={<Employees sorting={sorting} setSorting={setSorting} />}
-          />
+          <Route path="/employees" element={<Employees />} />
           <Route path="*" element={<Error />} />
         </Routes>
       </HRContext.Provider>
