@@ -2,7 +2,8 @@
 import styled from "styled-components";
 import records from "../data/employees.json";
 // import emptyData from "../data/employees-empty.json";
-import Table from "../../../react-array/src/components/Table-copy";
+// import Table from "../../../react-array/src/components/Table-copy";
+import { Table } from "react-table-search-sort-paginate";
 
 const StyledEmployees = styled.div`
   display: flex;
