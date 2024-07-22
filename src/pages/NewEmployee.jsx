@@ -10,6 +10,7 @@ import EmployeeModal from "../Components/EmployeeModal";
 import SelectDate from "../Components/SelectDate";
 import SelectOption from "../Components/SelectOption";
 import { validateForm } from "../utils/utils";
+import dayjs from "dayjs";
 
 const stateOptions = states.map((state) => ({
   value: state.abbreviation,
@@ -23,6 +24,21 @@ const departmentOptions = [
   { value: "Human Resources", label: "Human Resources" },
   { value: "Legal", label: "Legal" },
 ];
+
+const formatData = (data) => {
+  return {
+    "First name": data.firstName,
+    "Last name": data.lastName,
+    "Birth date": dayjs(data.birthDate).format("DD/MM/YYYY"),
+    Email: data.emailAddress,
+    Street: data.street,
+    City: data.city,
+    State: data.state.value,
+    ZIP: data.zipCode,
+    "Start date": dayjs(data.startDate).format("DD/MM/YYYY"),
+    Department: data.department.value,
+  };
+};
 
 const StyledForm = styled.form`
   display: flex;
@@ -74,6 +90,7 @@ const StyledForm = styled.form`
 
 const NewEmployee = () => {
   const { formData, setFormData } = useContext(HRContext);
+  const { employeesData, setEmployeesData } = useContext(HRContext);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -81,6 +98,8 @@ const NewEmployee = () => {
   function handleSubmit(event) {
     event.preventDefault();
     if (validateForm(formData)) {
+      console.log(formatData(formData));
+      setEmployeesData([...employeesData, formatData(formData)]);
       handleOpen();
       resetFormInputs();
     }
