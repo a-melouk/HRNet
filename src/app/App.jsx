@@ -11,7 +11,8 @@ import Error from "../pages/Error";
 import "./App.css";
 import { HRContext } from "./HRContext";
 import { useState } from "react";
-import records from "../data/employees.json";
+// import records from "../data/employees.json";
+import records from "../data/employees-copy.json";
 
 function App() {
   const [formData, setFormData] = useState({
