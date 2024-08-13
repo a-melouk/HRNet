@@ -11,6 +11,8 @@ import Error from "../pages/Error";
 import "./App.css";
 import { HRContext } from "./HRContext";
 import { useState } from "react";
+// import records from "../data/employees.json";
+import records from "../data/employees-copy.json";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -26,10 +28,14 @@ function App() {
     startDate: null,
   });
 
+  const [employeesData, setEmployeesData] = useState(Array.from(records));
+
   return (
     <Router>
       <Nav />
-      <HRContext.Provider value={{ formData, setFormData }}>
+      <HRContext.Provider
+        value={{ formData, setFormData, employeesData, setEmployeesData }}
+      >
         <Routes>
           <Route path="/" element={<Navigate replace to="/new-employee" />} />
           <Route path="/new-employee" element={<NewEmployee />} />

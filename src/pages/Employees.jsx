@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import styled from "styled-components";
-import records from "../data/employees.json";
+// import records from "../data/employees.json";
 // import emptyData from "../data/employees-empty.json";
-// import Table from "../../../react-array/src/components/Table-copy";
 import { Table } from "react-table-search-sort-paginate";
+import { useContext } from "react";
+import { HRContext } from "../app/HRContext";
 
 const StyledEmployees = styled.div`
   display: flex;
@@ -20,9 +21,10 @@ const StyledEmployees = styled.div`
 `;
 
 const Employees = () => {
-  const dataSource = Array.from(records);
+  // const dataSource = employeesData;
   // const dataSource = Array.from(emptyData);
-  1;
+  const { employeesData } = useContext(HRContext);
+
   const columns = [
     {
       title: "First Name",
@@ -74,7 +76,7 @@ const Employees = () => {
   return (
     <StyledEmployees>
       <h1>Current employees</h1>
-      <Table dataSource={dataSource} columns={columns} />
+      <Table dataSource={employeesData} columns={columns} />
     </StyledEmployees>
   );
 };
