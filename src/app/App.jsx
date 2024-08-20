@@ -4,15 +4,16 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { Suspense, lazy, useState } from "react";
 import Nav from "../Components/Nav";
-import NewEmployee from "../pages/NewEmployee";
-import Employees from "../pages/Employees";
-import Error from "../pages/Error";
 import "./App.css";
 import { HRContext } from "./HRContext";
-import { useState } from "react";
-// import records from "../data/employees.json";
 import records from "../data/employees-copy.json";
+
+// Lazy load components
+const NewEmployee = lazy(() => import("../pages/NewEmployee"));
+const Employees = lazy(() => import("../pages/Employees"));
+const Error = lazy(() => import("../pages/Error"));
 
 function App() {
   const [formData, setFormData] = useState({
@@ -36,12 +37,14 @@ function App() {
       <HRContext.Provider
         value={{ formData, setFormData, employeesData, setEmployeesData }}
       >
-        <Routes>
-          <Route path="/" element={<Navigate replace to="/new-employee" />} />
-          <Route path="/new-employee" element={<NewEmployee />} />
-          <Route path="/employees" element={<Employees />} />
-          <Route path="*" element={<Error />} />
-        </Routes>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Navigate replace to="/new-employee" />} />
+            <Route path="/new-employee" element={<NewEmployee />} />
+            <Route path="/employees" element={<Employees />} />
+            <Route path="*" element={<Error />} />
+          </Routes>
+        </Suspense>
       </HRContext.Provider>
     </Router>
   );
